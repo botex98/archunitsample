@@ -1,6 +1,13 @@
 [versions]
 spring-boot = "2.7.0"
+swagger-annotations = "1.6.6"
+tngtech-archunit = "0.23.1"
 
 [libraries]
 
 spring-boot-bom = { module = "org.springframework.boot:spring-boot-dependencies", version.ref = "spring-boot" }
+
+swagger-annotations = { module = "io.swagger:swagger-annotations", version.ref = "swagger-annotations" }
+
+tngtech-archunit = { module = "com.tngtech.archunit:archunit", version.ref = "tngtech-archunit" }
+tngtech-archunit-junit5 = { module = "com.tngtech.archunit:archunit-junit5", version.ref = "tngtech-archunit" }

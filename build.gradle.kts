@@ -19,13 +19,12 @@ dependencies {
     annotationProcessor(platform(libs.spring.boot.bom))
 
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-//    implementation("org.springframework.boot:spring-boot-starter-jdbc")
-//    implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation(libs.swagger.annotations)
 
-    implementation("io.swagger:swagger-annotations")
-//    testImplementation "org.springframework.boot:spring-boot-starter-test"
-//    testImplementation "org.jetbrains.kotlin:kotlin-test"
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation(libs.tngtech.archunit)
+    testImplementation(libs.tngtech.archunit.junit5)
 }
 
 tasks.withType<KotlinCompile> {
@@ -33,8 +32,4 @@ tasks.withType<KotlinCompile> {
         freeCompilerArgs = listOf("-Xjsr305=strict")
         jvmTarget = "17"
     }
-}
-
-tasks.withType<Test> {
-    useJUnitPlatform()
 }

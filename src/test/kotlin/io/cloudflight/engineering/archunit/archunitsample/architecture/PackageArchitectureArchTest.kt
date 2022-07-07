@@ -1,0 +1,45 @@
+package io.cloudflight.engineering.archunit.archunitsample.architecture
+
+import com.tngtech.archunit.core.importer.ImportOption
+import com.tngtech.archunit.junit.AnalyzeClasses
+import com.tngtech.archunit.junit.ArchTest
+import com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes
+
+@AnalyzeClasses(packages = ["io.cloudflight"], importOptions = [ImportOption.DoNotIncludeTests::class])
+class PackageArchitectureArchTest {
+
+    @ArchTest
+    val entities_must_reside_in_entity_package = classes()
+        .that().areAnnotatedWith("javax.persistence.Entity")
+        .or().areAnnotatedWith("javax.persistence.MappedSuperclass")
+        .should().resideInAPackage(Packages.ENTITY)
+        .`as`("Entities should reside in a package ${Packages.ENTITY}")
+
+    @ArchTest
+    val repositories_must_reside_in_repository_package = classes()
+        .that().areAssignableTo("org.springframework.data.jpa.repository.JpaRepository")
+        .should().resideInAPackage(Packages.REPOSITORY)
+        .`as`("Repositories should reside in a package ${Packages.REPOSITORY}")
+
+    @ArchTest
+    val services_mutst_reside_in_service_package = classes()
+        .that().areAnnotatedWith("org.springframework.stereotype.Service")
+        .should().resideInAPackage(Packages.SERVICE)
+        .`as`("Services should reside in a package ${Packages.SERVICE}")
+
+    @ArchTest
+    val controllers_must_reside_in_controller_package = classes()
+        .that().areAnnotatedWith("org.springframework.stereotype.Controller")
+        .or().areAnnotatedWith("org.springframework.web.bind.annotation.RestController")
+        .should().resideInAnyPackage(Packages.CONTROLLERS)
+        .`as`("Controllers should reside in a package ${Packages.CONTROLLERS}")
+
+    @ArchTest
+    val apis_must_reside_in_api_package = classes()
+        .that().areAnnotatedWith("io.swagger.annotations.Api")
+        .or().areAnnotatedWith("org.springframework.web.bind.annotation.RequestMapping")
+        .should().resideInAnyPackage(Packages.API)
+        .`as`("Controllers should reside in a package ${Packages.API}")
+
+}
+
