@@ -1,0 +1,5 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/BoschProd-05-18
+    username: root
+    password: root
