@@ -1,57 +1,33 @@
 package io.cloudflight.engineering.archunit.archunitsample.api
 
-import com.tngtech.archunit.core.domain.JavaClass
-import com.tngtech.archunit.core.domain.JavaClasses
 import com.tngtech.archunit.core.domain.JavaMethod
-import com.tngtech.archunit.core.importer.ClassFileImporter
 import com.tngtech.archunit.core.importer.ImportOption
 import com.tngtech.archunit.junit.AnalyzeClasses
+import com.tngtech.archunit.junit.ArchTest
 import com.tngtech.archunit.lang.*
-import com.tngtech.archunit.lang.conditions.ArchConditions
-import com.tngtech.archunit.lang.syntax.ArchRuleDefinition
+import com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes
+import com.tngtech.archunit.lang.syntax.ArchRuleDefinition.methods
 import io.cloudflight.engineering.archunit.archunitsample.architecture.Packages
-import io.swagger.annotations.Api
-import org.junit.jupiter.api.Test
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestPart
-import java.util.regex.Pattern
-import java.util.stream.Collectors
 
-@AnalyzeClasses(packages = ["io.cloudflight"], importOptions = [ImportOption.DoNotIncludeTests::class])
+@AnalyzeClasses(packages = ["io.cloudflight.engineering.archunit"], importOptions = [ImportOption.DoNotIncludeTests::class])
 class SwaggerApiArchTest {
 
-    @Test
-    fun testApiPostAndPutMethodsDefineConsumesMediaType() {
-        val importedClasses: JavaClasses = ClassFileImporter()
-            .withImportOption { it!!.matches(Pattern.compile(".*Api.class")) }
-            .importPackages("io.cloudflight")
+    @ArchTest
+    val api_classes_should_be_annotated_with_swagger: ArchRule = classes()
+            .that().resideInAPackage("..api")
+            .should().beAnnotatedWith("io.swagger.annotations.Api")
+            .`as`("we want the swagger generator to generate frontend DTOs and services for us")
 
-        val apiClasses: ClassesTransformer<JavaClass> =
-            object : AbstractClassesTransformer<JavaClass>("classes being annotated with @Api") {
-                override fun doTransform(classes: JavaClasses): Iterable<JavaClass> {
-                    return classes.stream()
-                        .filter { it.isInterface }
-                        .collect(Collectors.toSet())
-                }
-            }
-
-        ArchRuleDefinition
-            .all(apiClasses)
-            .should(ArchConditions.beAnnotatedWith(Api::class.java))
-            .because("we want the swagger generator to generate frontend DTOs and services for us")
-            .check(importedClasses)
-
-        ArchRuleDefinition.methods()
-            .that()
-            .areAnnotatedWith(PostMapping::class.java)
-            .or()
-            .areAnnotatedWith(PutMapping::class.java)
+    @ArchTest
+    val post_or_put_methods_should_define_consumes_argument: ArchRule = methods()
+            .that().areAnnotatedWith("org.springframework.web.bind.annotation.PostMapping")
+            .or().areAnnotatedWith("org.springframework.web.bind.annotation.PutMapping")
             .should(defineConsumesArgument())
-            .because("request header Content-Type must be set so that generated frontend services work as expected")
-            .check(importedClasses)
-    }
+            .`as`("request header Content-Type must be set so that generated frontend services work as expected")
 
     private fun defineConsumesArgument(): ArchCondition<in JavaMethod> {
         return object : ArchCondition<JavaMethod>("define the 'consumes' argument") {

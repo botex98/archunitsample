@@ -5,7 +5,7 @@ import com.tngtech.archunit.junit.AnalyzeClasses
 import com.tngtech.archunit.junit.ArchTest
 import com.tngtech.archunit.library.GeneralCodingRules.*
 
-@AnalyzeClasses(packages = ["io.cloudflight"], importOptions = [ImportOption.DoNotIncludeTests::class])
+@AnalyzeClasses(packages = ["io.cloudflight.engineering.archunit"], importOptions = [ImportOption.DoNotIncludeTests::class])
 class CodingConventionsArchTest {
 
     @ArchTest

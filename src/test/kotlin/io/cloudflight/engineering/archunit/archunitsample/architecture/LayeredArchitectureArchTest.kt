@@ -7,7 +7,7 @@ import com.tngtech.archunit.lang.ArchRule
 import com.tngtech.archunit.library.Architectures.layeredArchitecture
 
 
-@AnalyzeClasses(packages = ["io.cloudflight"], importOptions = [DoNotIncludeTests::class])
+@AnalyzeClasses(packages = ["io.cloudflight.engineering.archunit"], importOptions = [DoNotIncludeTests::class])
 class LayeredArchitectureArchTest {
 
     @ArchTest
@@ -16,11 +16,9 @@ class LayeredArchitectureArchTest {
         .layer(Layers.API)
         .definedBy(Packages.API)
         .layer(Layers.CONTROLLER)
-        .definedBy(Packages.CONTROLLERS)
+        .definedBy(Packages.CONTROLLER)
         .layer(Layers.SERVICE)
         .definedBy(Packages.SERVICE)
-        .layer(Layers.DOMAIN)
-        .definedBy(Packages.DOMAIN)
         .layer(Layers.ENTITY)
         .definedBy(Packages.ENTITY)
         .layer(Layers.REPOSITORY)
