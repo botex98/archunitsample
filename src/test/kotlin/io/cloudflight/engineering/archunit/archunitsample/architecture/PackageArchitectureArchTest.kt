@@ -5,7 +5,10 @@ import com.tngtech.archunit.junit.AnalyzeClasses
 import com.tngtech.archunit.junit.ArchTest
 import com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes
 
-@AnalyzeClasses(packages = ["io.cloudflight.engineering.archunit"], importOptions = [ImportOption.DoNotIncludeTests::class])
+@AnalyzeClasses(
+    packages = ["io.cloudflight.engineering.archunit"],
+    importOptions = [ImportOption.DoNotIncludeTests::class]
+)
 class PackageArchitectureArchTest {
 
     @ArchTest

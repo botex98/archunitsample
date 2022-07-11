@@ -7,14 +7,13 @@ import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 
 @Api("UserApi")
-@RequestMapping("/user")
 @ResponseBody
 interface UserApi {
 
-    @GetMapping("/{id}")
+    @GetMapping("/user/{id}")
     fun get(@PathVariable("id") id: Long): UserDto?
 
-    @PostMapping(consumes = [MediaType.APPLICATION_JSON_VALUE])
+    @PostMapping("/user", consumes = [MediaType.APPLICATION_JSON_VALUE])
     fun create(@RequestBody userSavingDto: UserSavingDto?): UserDto?
 }
 
