@@ -15,5 +15,4 @@ class UserRestController(
 
     override fun create(userSavingDto: UserSavingDto?): UserDto? = userService.create(userSavingDto)
 
-
 }

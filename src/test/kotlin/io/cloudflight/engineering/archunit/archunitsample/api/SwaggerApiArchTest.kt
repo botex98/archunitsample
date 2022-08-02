@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestPart
-import java.util.*
 
 @AnalyzeClasses(
     packages = ["io.cloudflight.engineering.archunit"], importOptions = [ImportOption.DoNotIncludeTests::class]

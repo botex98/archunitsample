@@ -1,7 +1,7 @@
 [versions]
 spring-boot = "2.7.0"
 swagger-annotations = "1.6.6"
-tngtech-archunit = "0.23.1"
+tngtech-archunit = "1.0.0-rc1"
 
 [libraries]
 
